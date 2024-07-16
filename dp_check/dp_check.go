@@ -1105,9 +1105,10 @@ func getBackendAddrsFromTrafficDirector(ipv6Capable bool) ([]string, error) {
 
 func maybeOverrideFlags() {
 	const spannerSuffix = "spanner.googleapis.com"
-	if strings.HasSuffix(spannerSuffix, *service) {
+	const bigtableSuffix = "bigtable.googleapis.com"
+	if strings.HasSuffix(spannerSuffix, *service) || strings.HasSuffix(bigtableSuffix, *service) {
 		// expect fallback configured for .*spanner.googleapis.com
-		infoLog.Printf("overriding flag --xds_expect_fallback_configured to true because --service ends with %s, previous setting: %v", spannerSuffix, *xdsExpectFallbackConfigured)
+		infoLog.Printf("overriding flag --xds_expect_fallback_configured to true because --service ends with %s or %s, previous setting: %v", spannerSuffix, bigtableSuffix, *xdsExpectFallbackConfigured)
 		*xdsExpectFallbackConfigured = true
 	}
 }
